@@ -11,6 +11,7 @@ function floorMapper(state, instruction) {
   return Number(state.floor);
 }
 
+// This might not work, but whatever input file you use goes here
 fetch('http://adventofcode.com/day/1/input')
   .then(function(response) {
     return response.text();

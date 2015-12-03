@@ -31,7 +31,8 @@ function ribbonReducer(prev, next) {
     );
 }
 
-fetch('http://localhost:9500/advent2.txt')
+// This might not work, but whatever input file you use goes here
+fetch('http://adventofcode.com/day/2/input')
   .then(function(response) {
     return response.text();
   })
@@ -39,4 +40,7 @@ fetch('http://localhost:9500/advent2.txt')
     // Again I was solving both problems separately, would be a more efficient way to do this otherwise...
     console.log( 'paper', data.trim().split('\n').reduce(paperReducer, 0) );
     console.log( 'ribbon', data.trim().split('\n').reduce(ribbonReducer, 0) );
+  })
+  .catch(function(err) {
+    console.log(err);
   });
