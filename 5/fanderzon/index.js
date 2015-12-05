@@ -33,7 +33,7 @@ fs.readFile('./input.txt', 'utf8', function readInput(err, data) {
       .filter(vowelCountFilter)
       .filter(doubleCharFilter)
       .filter(excludePairsFilter)
-    .length
+      .length
   );
 
   console.log( 'Matches for second set of crazy rules',
