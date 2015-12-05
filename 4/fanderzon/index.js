@@ -4,9 +4,7 @@ const input = 'yzbqklnj',
       pattern6 = /^000000/;
 
 let counter = 1,
-		hash = '',
-    five,
-    six;
+    hash = '';
 
 
 while (!pattern5.test(hash)) {
