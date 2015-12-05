@@ -1,3 +1,5 @@
+/** Disclaimer: this is not exactly good code, just fun code. */
+
 const fs = require('fs')
 const fl = fs.readFileSync('./input.txt').toString('utf8')
 
