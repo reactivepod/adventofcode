@@ -17,4 +17,3 @@ function checkString(string) {
 function count(sum) {
 	return sum + 1;
 }
-
