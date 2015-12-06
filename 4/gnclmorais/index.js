@@ -8,18 +8,35 @@ function startsWithFiveZeros(string) {
   return string.substr(0, 5) === '00000'
 }
 
-function part1() {
-  var adventCoin, secretKey = 1
+function startsWithSixZeros(string) {
+  return string.substr(0, 6) === '000000'
+}
+
+function mineUntilFound(stopFn, start) {
+  var adventCoin, secretKey = (start || 1) - 1
 
   do {
-    adventCoin = md5(str + secretKey++)
-  } while (!startsWithFiveZeros(adventCoin))
+    secretKey += 1
+    adventCoin = md5(str + secretKey)
+  } while (!stopFn(adventCoin))
 
   return secretKey
 }
 
+function part1() {
+  return mineUntilFound(startsWithFiveZeros)
+}
+
+/** Accepts an option start, to bypass starting form the beginning */
+function part2(start) {
+  return mineUntilFound(startsWithSixZeros, start)
+}
+
 function main() {
-  console.log('Part 1:', part1())
+  var part1Result = part1()
+
+  console.log('Part 1:', part1Result)
+  console.log('Part 2:', part2(part1Result))
 }
 
 main()
