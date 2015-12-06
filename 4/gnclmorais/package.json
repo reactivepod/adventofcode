@@ -1,0 +1,8 @@
+{
+  "name": "adventofcode_day_04",
+  "description": "Advent of Code, Day 4: The Ideal Stocking Stuffer",
+  "version": "0.0.1",
+  "dependencies": {
+    "md5": "^2.0.0"
+  }
+}
