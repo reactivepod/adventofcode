@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs')
-const _ = require('lodash')
 
 const splitCommand = line => line.split(' -> ')
 
@@ -46,16 +45,13 @@ const data = fs.readFileSync('./input')
                 .trim()
                 .split('\n')
                 .map(splitCommand)
-                .map(command => {
-                  const instruction = parse(command[0])
-                  instruction.target = command[1]
-                  return instruction;
-                })
-
-const instructions = _.indexBy(data, data => data.target)
+                .reduce((state, command) => {
+                  state[command[1]] = parse(command[0])
+                  return state;
+                }, {});
 
 function compute(letter, cache) {
-  const cmd = instructions[letter];
+  const cmd = data[letter];
   const result = cpu[cmd.cmd].apply(null, cmd.args.map(arg => (typeof arg === 'number') ? arg : (cache[arg]) ? cache[arg] : compute(arg, cache) ))
   cache[letter] = result;
   return result;
