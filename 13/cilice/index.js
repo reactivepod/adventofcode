@@ -20,27 +20,18 @@ const input = fs.readFileSync('./input')
                   return data
                 }, {})
 
-const data = {
-  input
-}
 
 
-
-const partOne = permute(Object.keys(data.input)).reduce((total, table, index) => {
-  const happiness = table.reduce(getHappiness.bind(data), 0)
-  if (happiness > total) {
-    return total = happiness
-  } else {
-    return total
-  }
+const partOne = permute(Object.keys(input)).reduce((total, table, index) => {
+  const happiness = table.reduce(getHappiness.bind({input}), 0)
+  return (happiness > total) ? happiness : total
 }, 0);
 
 console.log(partOne)
 
 const addMe = data => {
-  const people = Object.keys(data)
   data['Cilice'] = data['Cilice'] || {}
-  people.forEach(person => {
+  Object.keys(data).forEach(person => {
     data['Cilice'][person] = 0
     data[person]['Cilice'] = 0
   })
@@ -48,17 +39,13 @@ const addMe = data => {
   return data
 }
 
-const data2 = Object.assign({}, data, {
-  input: addMe(data.input)
-})
+const data2 = {
+  input: addMe(input)
+}
 
 const partTwo = permute(Object.keys(data2.input)).reduce((total, table, index) => {
   const happiness = table.reduce(getHappiness.bind(data2), 0)
-  if (happiness > total) {
-    return total = happiness
-  } else {
-    return total
-  }
+  return (happiness > total) ? happiness : total
 }, 0);
 
 console.log(partTwo)
