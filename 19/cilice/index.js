@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import splice from 'string-splice'
+import shuffle from 'array-shuffle'
 
 const input = readFileSync('./input').toString('utf8')
   .trim()
@@ -13,9 +14,8 @@ const input = readFileSync('./input').toString('utf8')
     return formula
   }, {})
 
-const formula = 'CRnCaCaCaSiRnBPTiMgArSiRnSiRnMgArSiRnCaFArTiTiBSiThFYCaFArCaCaSiThCaPBSiThSiThCaCaPTiRnPBSiThRnFArArCaCaSiThCaSiThSiRnMgArCaPTiBPRnFArSiThCaSiRnFArBCaSiRnCaPRnFArPMgYCaFArCaPTiTiTiBPBSiThCaPTiBPBSiRnFArBPBSiRnCaFArBPRnSiRnFArRnSiRnBFArCaFArCaCaCaSiThSiThCaCaPBPTiTiRnFArCaPTiBSiAlArPBCaCaCaCaCaSiRnMgArCaSiThFArThCaSiThCaSiRnCaFYCaSiRnFYFArFArCaSiRnFYFArCaSiRnBPMgArSiThPRnFArCaSiRnFArTiRnSiRnFYFArCaSiRnBFArCaSiRnTiMgArSiThCaSiThCaFArPRnFArSiRnFArTiTiTiTiBCaCaSiRnCaCaFYFArSiThCaPTiBPTiBCaSiThSiRnMgArCaF'
+const formula = 'ORnPBPMgArCaCaCaSiThCaCaSiThCaCaPBSiRnFArRnFArCaCaSiThCaCaSiThCaCaCaCaCaCaSiRnFYFArSiRnMgArCaSiRnPTiTiBFYPBFArSiRnCaSiRnTiRnFArSiAlArPTiBPTiRnCaSiAlArCaPTiTiBPMgYFArPTiRnFArSiRnCaCaFArRnCaFArCaSiRnSiRnMgArFYCaSiRnMgArCaCaSiThPRnFArPBCaSiRnMgArCaCaSiThCaSiRnTiMgArFArSiThSiThCaCaSiRnMgArCaCaSiRnFArTiBPTiRnCaSiAlArCaPTiRnFArPBPBCaCaSiThCaPBSiThPRnFArSiThCaSiThCaSiThCaPTiBSiRnFYFArCaCaPRnFArPBCaCaPBSiRnTiRnFArCaPRnFArSiRnCaCaCaSiThCaRnCaFArYCaSiRnFArBCaCaCaSiThFArPBFArCaSiRnFArRnCaCaCaFArSiRnFArTiRnPMgArF'
 
-// console.log(input)
 const rx = /([a-zA-Z][a-z]*)/g
 let match;
 let matches = []
@@ -43,21 +43,32 @@ console.log(partOne.length)
 
 const reverse = Object.keys(input).reduce((table, replacement) => {
   input[replacement].forEach(element => {
-    table.set(element, replacement)
+    table[element] = replacement
   })
 
   return table
-}, new Map())
+}, {})
 
 let target = formula
 let partTwo = 0
+let elements = Object.keys(reverse)
 
 while (target !== 'e') {
-  for (const [element, replacement] of reverse.entries()) {
+  const tmp = target
+
+  for (const element of elements) {
+    const replacement = reverse[element]
+
     if (target.includes(element)) {
       target = target.replace(element, replacement)
       partTwo = partTwo + 1
     }
+  }
+
+  if (tmp === target) {
+    target = formula
+    partTwo = 0
+    elements = shuffle(elements)
   }
 }
 

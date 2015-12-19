@@ -8,6 +8,10 @@ var _stringSplice = require('string-splice');
 
 var _stringSplice2 = _interopRequireDefault(_stringSplice);
 
+var _arrayShuffle = require('array-shuffle');
+
+var _arrayShuffle2 = _interopRequireDefault(_arrayShuffle);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -26,9 +30,8 @@ var input = (0, _fs.readFileSync)('./input').toString('utf8').trim().split('\n')
   return formula;
 }, {});
 
-var formula = 'CRnCaCaCaSiRnBPTiMgArSiRnSiRnMgArSiRnCaFArTiTiBSiThFYCaFArCaCaSiThCaPBSiThSiThCaCaPTiRnPBSiThRnFArArCaCaSiThCaSiThSiRnMgArCaPTiBPRnFArSiThCaSiRnFArBCaSiRnCaPRnFArPMgYCaFArCaPTiTiTiBPBSiThCaPTiBPBSiRnFArBPBSiRnCaFArBPRnSiRnFArRnSiRnBFArCaFArCaCaCaSiThSiThCaCaPBPTiTiRnFArCaPTiBSiAlArPBCaCaCaCaCaSiRnMgArCaSiThFArThCaSiThCaSiRnCaFYCaSiRnFYFArFArCaSiRnFYFArCaSiRnBPMgArSiThPRnFArCaSiRnFArTiRnSiRnFYFArCaSiRnBFArCaSiRnTiMgArSiThCaSiThCaFArPRnFArSiRnFArTiTiTiTiBCaCaSiRnCaCaFYFArSiThCaPTiBPTiBCaSiThSiRnMgArCaF';
+var formula = 'ORnPBPMgArCaCaCaSiThCaCaSiThCaCaPBSiRnFArRnFArCaCaSiThCaCaSiThCaCaCaCaCaCaSiRnFYFArSiRnMgArCaSiRnPTiTiBFYPBFArSiRnCaSiRnTiRnFArSiAlArPTiBPTiRnCaSiAlArCaPTiTiBPMgYFArPTiRnFArSiRnCaCaFArRnCaFArCaSiRnSiRnMgArFYCaSiRnMgArCaCaSiThPRnFArPBCaSiRnMgArCaCaSiThCaSiRnTiMgArFArSiThSiThCaCaSiRnMgArCaCaSiRnFArTiBPTiRnCaSiAlArCaPTiRnFArPBPBCaCaSiThCaPBSiThPRnFArSiThCaSiThCaSiThCaPTiBSiRnFYFArCaCaPRnFArPBCaCaPBSiRnTiRnFArCaPRnFArSiRnCaCaCaSiThCaRnCaFArYCaSiRnFArBCaCaCaSiThFArPBFArCaSiRnFArRnCaCaCaFArSiRnFArTiRnPMgArF';
 
-// console.log(input)
 var rx = /([a-zA-Z][a-z]*)/g;
 var match = undefined;
 var matches = [];
@@ -56,26 +59,28 @@ console.log(partOne.length);
 
 var reverse = Object.keys(input).reduce(function (table, replacement) {
   input[replacement].forEach(function (element) {
-    table.set(element, replacement);
+    table[element] = replacement;
   });
 
   return table;
-}, new Map());
+}, {});
 
 var target = formula;
 var partTwo = 0;
+var elements = Object.keys(reverse);
 
 while (target !== 'e') {
+  var tmp = target;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
 
   try {
-    for (var _iterator = reverse.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var _step$value = _slicedToArray(_step.value, 2);
+    for (var _iterator = elements[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var element = _step.value;
 
-      var element = _step$value[0];
-      var replacement = _step$value[1];
+      var replacement = reverse[element];
 
       if (target.includes(element)) {
         target = target.replace(element, replacement);
@@ -95,6 +100,12 @@ while (target !== 'e') {
         throw _iteratorError;
       }
     }
+  }
+
+  if (tmp === target) {
+    target = formula;
+    partTwo = 0;
+    elements = (0, _arrayShuffle2.default)(elements);
   }
 }
 
