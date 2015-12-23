@@ -68,13 +68,9 @@ for (let ring1 of rings) {
     }
 
     if (simulate(player)) {
-      if (player.cost < min) {
-        min = player.cost
-      }
+      min = Math.min(player.cost, min)
     } else {
-      if (player.cost > max) {
-        max = player.cost
-      }
+      max = Math.max(player.cost, max)
     }
 
   }
